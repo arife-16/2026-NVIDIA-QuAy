@@ -18,7 +18,9 @@ Phase 1 Milestones:
 2. Research & Plan: Perform due diligence to design a custom quantum strategy and acceleration plan.
 
 Phase 2 Milestones:
+
 3. Build: Validate your algorithm on a CPU in qbraid, then migrate to Brev.dev to deploy full GPU acceleration.
+
 4. Showcase and Retrospective: Present your solution, performance metrics, and your AI-driven workflow.
 
 ## Logistics
