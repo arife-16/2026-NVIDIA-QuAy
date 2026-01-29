@@ -82,7 +82,7 @@ The designated GPU Acceleration PIC will create an organization in Brev, redeem 
 
 2. Create a new Brev organization by clicking on the building icon in the top right corner and selecting `+ Create a new organization.` 
 
-3. Name your organization in the format: `MIT-<team_name_here>` Example: `MIT-qrazy-qubits` <img align="right" width ="55%" src="images/image-5.png">
+3. Name your organization in the format: `MIT-<team_name_here>` Example: `MIT-qrazy-qubits` <img align="right" width ="65%" src="images/image-5.png">
 
 4. Go to the `Team` tab located at the top. 
 
@@ -92,7 +92,7 @@ The designated GPU Acceleration PIC will create an organization in Brev, redeem 
 
 7. Scroll down and click `Redeem Code` 
 
-8. Enter the code you were provided in the `Enter Code` field. Please ensure coupon code is all lower case <img align="right" width ="29%" src="images/image-6.png">
+8. Enter the code you were provided in the `Enter Code` field. Please ensure coupon code is all lower case <img align="right" width ="20%" src="images/image-6.png">
 
 9. Click `Redeem`
 
@@ -102,16 +102,16 @@ The designated GPU Acceleration PIC will create an organization in Brev, redeem 
 
     * ***Take budget into consideration when selecting a GPU to run your code on. We know it's tempting to select a B300, but selecting more expensive options will burn through your credits significantly faster.***
 
-11. After selecting GPU configuration, click `Deploy Launchable`. <img style="float: right;" width ="30%" src="images/image-7.png">
+11. After selecting GPU configuration, click `Deploy Launchable`. <img style="float: right;" width ="25%" src="images/image-7.png">
 
-    * You can check the status of your deployment by clicking `Go to Instance Page` or through the `GPUs` tab <img align="right" width ="55%" src="images/image-8.png">
+    * You can check the status of your deployment by clicking `Go to Instance Page` or through the `GPUs` tab <img align="right" width ="50%" src="images/image-8.png">
 
 12. Once deployment is complete, you will see a GPU environment under the  `GPUs` tab.
     * For the GPU Acceleration PIC, this will show up under the `Mine` tab.
 
     * For all other team members, this will show up under the `Team` tab.
 
-13. Select `Access Notebook` to pull up the notebook environment similar to qBraid. Team mebers should also complete this step. <img align="right" width ="55%" src="images/image-9.png">
+13. Select `Access Notebook` to pull up the notebook environment similar to qBraid. Team mebers should also complete this step. <img align="right" width ="50%" src="images/image-9.png">
 
     * If team members run into an error when trying to access the environment, go to the instance page, and scroll down to `Using Secure Links`.
 
