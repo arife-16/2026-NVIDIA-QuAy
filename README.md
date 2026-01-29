@@ -24,7 +24,7 @@ In this challenge, you will mimic a real-world R&D pipeline, moving from rapid p
 
 * **Phase 2 (Acceleration): Brev**
 
-    Once your logic is validated, you will "graduate" your code to [Brev](https://brev.nvidia.com/) to complete Milestone 3 and 4. Brev provides on-demand access to a wide variety of NVIDIA GPU architectures (L4s, T4s, A100s, ...). You will use this platform to test your solution across different hardware configurations and unlock full GPU acceleration.
+    Once your logic is validated, you will "graduate" your code to [Brev](https://brev.nvidia.com/) to complete Milestone 3 and 4. Brev provides on-demand access to a wide variety of NVIDIA GPU architectures (L4s, T4s, A100s, ...). We have provided a pre-configured GPU environment for this environment called a **Launchable**. You will use Brev to test your solution across different hardware configurations and unlock full GPU acceleration.
 
     ### Milestones: 
     3. **Build**: Validate your algorithm on a CPU in qBraid in the previous milestone, then migrate to Brev to deploy full GPU acceleration.
@@ -37,7 +37,28 @@ In this challenge, you will mimic a real-world R&D pipeline, moving from rapid p
 
 <a href="https://account-v2.qbraid.com/?gitHubUrl=https://github.com/iQuHACK/2026-NVIDIA" target="_parent"><img src="https://qbraid-static.s3.amazonaws.com/logos/Launch_on_qBraid_white.png" alt="Launch On qBraid" width="150"/></a>
 
-During the duration of the hackathon, you will have access to the new and improved version of the qBraid platform accessible through here: https://account-v2.qbraid.com/
+During the duration of the hackathon, you will have access to the new and improved version of the qBraid platform accessible through here: https://account-v2.qbraid.com/ 
+
+If any issues occur, try deleting cache in your browser and refreshing the page.
+
+### Steps for qBraid Environment Setup:
+<img style="float: right;" width= "25%" src="images/image.png">
+
+1. Click the `Launch on qBraid` button above
+
+2. Navigate to GIT in the left sidebar and clone this repository
+
+3. Add the CUDA-Q environment by navigating to the ENVS tab in the right sidebar, and click on `+ ADD`
+4. Navigate to `CUDA-Q and GPU Quantum Environments` 
+5. Install `CUDA-Q (v0.13.0)` - this will take a few minutes
+6. Navigate to `CUDA-Q and GPU Quantum Environments`<img style="float: right;" width ="26%" src="images/image-2.png">
+7. Once installation is complete, open the `labs_tutorial.ipynb` notebook
+8. In the bottom left corner, make sure the kernel is set to `Python 3 [cuda q-v0.13.0]` 
+9. Happy Hacking!
+
+
+For any questions or additional assistance using qBraid, see the [lab documentation](https://docs.qbraid.com/lab/user-guide/getting-started), or reach out to the qBraid team on discord. 
+
 
 ## Accessing Phase 2 of the Challenge with Brev
 
@@ -47,9 +68,63 @@ Congratulations on finishing the first part of the challenge!
 
 You will now get to run your code on real GPUs using NVIDIA's Brev Platform. Don't worry, you don't need to pay for anything! Once completing Phase 1 and your logic is validated, we will provide you with a **$20 Brev coupon code**.
 
-> Take budget into consideration when selecting a GPU to run your code on. We know it's tempting to select a B300, but selecting more expensive options will burn through your credits significantly faster.
+### Steps **ONLY** to be completed by the **GPU Acceleration PIC**:
+The designated GPU Acceleration PIC will create an organization in Brev, redeem the $20 coupon code, and provide their team members with access. 
+
+1. Go to http://brev.nvidia.com and input your email to create an account <img style="float: right;" width ="9%" src="images/image-3.png">
+
+2. Create a new Brev organization by clicking on the building icon in the top right corner and selecting `+ Create a new organization.` 
+
+3. Name your organization in the format: `MIT-<team_name_here>` Example: `MIT-qrazy-qubits`
+
+<img style="float: right;" width ="49%" src="images/image-5.png">
 
 
+
+4. Go to the `Team` tab located at the top. 
+
+5. Click `Generate Invite Link` and share with your team members.
+
+6. Go to the `Billing` tab 
+
+7. Scroll down and click `Redeem Code` 
+
+8. Enter the code you were provided in the `Enter Code` field. Please ensure coupon code is all lower case
+
+<img style="float: right;" width ="29%" src="images/image-6.png">
+
+9. Click `Redeem`
+
+10. Click the `Deploy Now` Button above to access the materials in this repository in a pre-configured GPU-environment.
+
+    * Before deploying the launchable, select `View All Options` to change your GPU selection.
+
+    * ***Take budget into consideration when selecting a GPU to run your code on. We know it's tempting to select a B300, but selecting more expensive options will burn through your credits significantly faster.***
+
+11. After selecting GPU configuration, click `Deploy Launchable`. <img style="float: right;" width ="30%" src="images/image-7.png">
+
+    * You can check the status of your deployment by clicking `Go to Instance Page` or through the `GPUs` tab 
+
+<img style="float: right;" width ="50%" src="images/image-8.png">
+
+12. Once deployment is complete, you will see a GPU environment under the  `GPUs` tab.
+    * For the GPU Acceleration PIC, this will show up under the `Mine` tab.
+
+    * For all other team members, this will show up under the `Team` tab.
+
+13. Select `Access Notebook` to pull up the notebook environment similar to qBraid. Team mebers should also complete this step. 
+
+    <img style="float: right;" width ="55%" src="images/image-9.png">
+
+    * If team members run into an error when trying to access the environment, go to the instance page, and scroll down to `Using Secure Links`.
+
+    * Click `Edit Access` and enter your team member's email or username. You may need to try both.
+
+14. Once all team members have access to the notebook, you can all edit the same notebook! To see your teammates' changes, refresh the notebook.
+
+15. Happy Hacking!
+
+For any questions or additional assistance using Brev, see the [Brev documentation](https://docs.nvidia.com/brev/latest/) or reach out to the NVIDIA team on discord.
 
 ## Resources
 ### CUDA-Q    
@@ -60,15 +135,9 @@ You will now get to run your code on real GPUs using NVIDIA's Brev Platform. Don
 
 * If you prefer to learn by watching, you can check out [minutes 30:40-38:28 of this demo](https://www.nvidia.com/en-us/on-demand/session/gtcdc25-dct51159/?playlistId=gtcdc25-quantum-computing-and-hpc&start=1840&end=2308) of description of cudaq kernels, sampling, and getting the state vector or watch [minutes 9:20-19:00 of this demo](https://www.youtube.com/live/DqPC-nlcXKA?si=ualhUnFYjW9BlbQz&t=560).
 
-### qBraid 
-* [qBraid Lab documentation](https://docs.qbraid.com/lab/user-guide/getting-started)
-
-### Brev
-
-### Quantum computing in general
 
 ## Accessing Material Post Challenge
 
-Challenge materials can be accessed via https://account-v2.qbraid.com/. 
+Challenge materials can be accessed via https://account-v2.qbraid.com/ or through https://account.qbraid.com/ once v2 is merged into the main platform.
 
 If you completed Phase 2 of the challenge, materials can be accessed via https://brev.nvidia.com/.
