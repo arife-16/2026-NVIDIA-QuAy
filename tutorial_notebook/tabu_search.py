@@ -74,40 +74,23 @@ class TabuSearch:
         # We can build M using broadcasting or sliding windows?
         # N is small (40-200), so N^2 is tiny. We can build full matrices.
         
-        # 1. Create indices
+        # Create indices
         k_indices = cp.arange(N).reshape(N, 1) if HAS_CUPY else np.arange(N).reshape(N, 1)
         tau_indices = cp.arange(1, N).reshape(1, N-1) if HAS_CUPY else np.arange(1, N).reshape(1, N-1)
         
-        # 2. Compute indices for s[k-tau] and s[k+tau]
+        # Compute indices for s[k-tau] and s[k+tau]
         idx_minus = k_indices - tau_indices # Shape (N, N-1)
         idx_plus = k_indices + tau_indices  # Shape (N, N-1)
         
-        # 3. Create Mask for valid indices
+        # 3Create Mask for valid indices
         mask_minus = (idx_minus >= 0)
         mask_plus = (idx_plus < N)
         
-        # 4. Gather values
+        # Gather values
         # We need to handle out of bounds. 
-        # Create a padded s to allow safe indexing? Or use where.
-        # Using where is easier.
         
         val_minus = cp.zeros((N, N-1), dtype=s.dtype) if HAS_CUPY else np.zeros((N, N-1), dtype=s.dtype)
-        # Advanced indexing requires careful backend handling
-        # For cupy/numpy, we can mask.
-        
-        # Flatten for indexing?
-        # Actually, let's use a padded array approach which is vectorized and clean.
-        # s_padded = [0, ... s ..., 0]
-        # But indices are relative.
-        
-        # Simpler:
-        # M = zeros
-        # M += s[idx_minus] where mask_minus
-        
-        # Note: cupy advanced indexing with masks can be slow? 
-        # Let's try direct boolean masking.
-        
-        # s[idx_minus] might be out of bounds, so we can't evaluate it directly without mask.
+
         # Safe indexing:
         safe_idx_minus = cp.where(mask_minus, idx_minus, 0) if HAS_CUPY else np.where(mask_minus, idx_minus, 0)
         term_minus = s[safe_idx_minus]
@@ -126,7 +109,7 @@ class TabuSearch:
         
         delta_C = M * change_col # Shape (N, N-1)
         
-        # Now compute energy change
+        # compute energy change
         # sum_{tau} [ 2 * C_tau * delta_C + delta_C^2 ]
         
         C_row = C.reshape(1, N-1) # C corresponds to tau=1..N-1
@@ -160,7 +143,6 @@ class TabuSearch:
         stagnation_counter = 0
         
         for it in range(self.max_iter):
-            # DYNAMIC TENURE LOGIC (Breathing Tabu)
             # If we are stagnating, increase "memory" to force the solver away.
             # If we are improving, relax memory to allow fine-tuning.
             # Linear scaling: min + (max-min) * (stag / threshold)
@@ -180,10 +162,6 @@ class TabuSearch:
             best_move_delta = float('inf')
             best_move_idx = -1
             
-            # Identify best move
-            # We can do this efficiently
-            # Check Tabu status
-            # tabu_list keys are indices
             
             # Create a mask of tabu indices
             is_tabu = np.zeros(self.N, dtype=bool)
@@ -222,12 +200,8 @@ class TabuSearch:
                 current_energy += best_move_delta
                 
                 # Recompute correlations
-                # For safety, full recompute is cheap enough if N is small?
                 # Actually, delta update of correlations is faster O(N).
                 # But we have O(N^2) vectorized calc anyway, so full recompute O(N^2) is fine.
-                # Just verify cost. N=40 -> 1600 ops.
-                # Batch calc is N * N = 1600 ops parallel.
-                # Recompute is 1600 ops.
                 # Same cost.
                 current_correlations = calculate_autocorrelations(current_seq)
                 
