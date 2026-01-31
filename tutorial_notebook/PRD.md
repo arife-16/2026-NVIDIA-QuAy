@@ -33,7 +33,6 @@
 * **Reference:** Hatano, N., & Nelson, D. R. (1996). "Localization Transitions in Non-Hermitian Quantum Mechanics." (*Phys. Rev. Lett*).
 * **Reference:** Gomez Cadavid, A., et al. (2025). "Scaling advantage with quantum-enhanced memetic tabu search." (*arXiv:2511.04553*).
 * **Reference:** Chandarana, P., et al. (2023). "Digitized counterdiabatic quantum algorithm for protein folding." (*Phys. Rev. Appl. 20, 014024*).
-* **Relevance:** These papers provide the theoretical foundation for using non-Hermitian mechanics to induce delocalization transitions (tunneling out of local minima) and the specific digitized implementation for quantum optimization.
 
 ---
 
