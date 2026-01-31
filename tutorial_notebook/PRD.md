@@ -2,7 +2,7 @@
 
 **Project Name:** Accelerated Quantum-Enhanced Memetic Search (A-QEMS)
 **Team Name:** QuAy
-**GitHub Repository:** https://github.com/arife-16/MIT-iQuHACK-NVIDIA-Challenge
+**GitHub Repository:** https://github.com/arife-16/2026-NVIDIA-QuAy
 
 ---
 
