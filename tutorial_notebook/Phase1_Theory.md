@@ -15,7 +15,7 @@ We map the "Low Autocorrelation Binary Sequence" (LABS) problem to a **Non-Hermi
 
 Classical solvers (like MTS) scale as roughly $O(1.34^N)$ because they must climb over energy barriers height $\Delta E$. The time to escape scales as $e^{\Delta E / T}$.
 
-Our **QE-MTS** approach scales closer to $O(1.24^N)$ because the Non-Hermitian Drift $\delta$ modifies the effective barrier transparency. The tunneling rate becomes proportional to $e^{-(\text{Barrier Width}) \times (1 - \delta)}$.
+Our **QE-MTS** approach aims to scale closer to $O(1.24^N)$ because the Non-Hermitian Drift $\delta$ modifies the effective barrier transparency. The tunneling rate becomes proportional to $e^{-(\text{Barrier Width}) \times (1 - \delta)}$.
 
 By increasing the drift $\delta$ (as we did, $\delta=1.5$), we effectively "thin" the barriers, allowing the solver to traverse the landscape via **Global Tunneling** rather than **Local Climbing**.
 
