@@ -37,7 +37,6 @@
 ---
 
 ## 3. The Acceleration Strategy
-**Owner:** GPU Acceleration PIC
 
 ### Quantum Acceleration (CUDA-Q)
 * **Strategy:**
