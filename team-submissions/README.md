@@ -13,7 +13,7 @@ The Project Lead should fork this repository and share the forked repository lin
 
 * [ ] **Final Code:** Notebooks and scripts for the Milestone 3 implementation.
 * [ ] **Test Suite:** `tests.py` demonstrating >60% coverage.
-* [ ] **AI Report:** `AI_REPORT.md` (The Post-mortem).
+* [ ] **AI Report:** `AI_REPORT.md` (See [AI_REPORT-template.md](AI_REPORT-template.md)).
 * [ ] **Presentation:** Slides (Live) or MP4 (Remote).
 
 ## Evaluation Criteria: How You Will Be Graded
