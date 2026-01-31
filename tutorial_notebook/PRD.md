@@ -77,7 +77,7 @@
     * *Test:* Compare Mean Energy of Quantum Ansatz ($E_Q$) vs. Random Noise ($E_R$) for $N=20$.
     * *Assertion:* $E_Q < E_R$ (The quantum algorithm must provide a head-start).
 * **Check 5 (Symplectic Invariant Assertion):**
-    * *Test:* Run the evolution for 100 Trotter steps with $\Delta t = 0.01$.
+    * *Test:* Run the evolution for 100 Trotter steps with $\Delta t = 0.001$.
     * *Assertion:* Energy deviation $\Delta E < 10^{-5}$ across the trajectory.
     * *Purpose:* Validates that the **Velocity Verlet** / Split-Operator integrator preserves the phase-space volume, essential for long-range sequence optimization.
 * **Check 6 (Stagnation Recovery Test):**
@@ -88,7 +88,6 @@
 ---
 
 ## 5. Execution Strategy & Success Metrics
-**Owner:** Technical Marketing PIC
 
 ### Agentic Workflow
 * **Plan:**
