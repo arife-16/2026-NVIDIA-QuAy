@@ -1,6 +1,6 @@
 # MIT-iQuHACK-NVIDIA-Challenge: QE-MTS (Quantum-Enhanced Memetic Tabu Search)
 
-This repository contains the winning solution for the NVIDIA Challenge at MIT iQuHACK.
+This repository contains the solution for the NVIDIA Challenge at MIT iQuHACK.
 The solution implements a **Quantum-Enhanced Memetic Tabu Search (QE-MTS)** solver for the Low Autocorrelation Binary Sequence (LABS) problem, demonstrating Quantum Advantage via Non-Unitary Tunneling and Phase-Space Compression.
 
 ## Key Innovations
