@@ -11,9 +11,6 @@
 | Role | Name | GitHub Handle | Discord Handle |
 | :--- | :--- | :--- | :--- |
 | **Project Lead** (Architect) | Arife Nur Ayaz | @arife-16 | @arife16 |
-| **GPU Acceleration PIC** (Builder) | Arife Nur Ayaz | @arife-16 | @arife16 |
-| **Quality Assurance PIC** (Verifier) | Arife Nur Ayaz | @arife-16 | @arife16 |
-| **Technical Marketing PIC** (Storyteller) | Arife Nur Ayaz | @arife-16 | @arife16 |
 
 ---
 
