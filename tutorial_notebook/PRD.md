@@ -56,7 +56,6 @@
 ---
 
 ## 4. The Verification Plan
-**Owner:** Quality Assurance PIC
 
 ### Unit Testing Strategy
 * **Framework:** Automated test suite (`tests.py`) that runs before every major compute job.
