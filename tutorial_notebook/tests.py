@@ -13,7 +13,7 @@ class TestQuantumDriver(unittest.TestCase):
     
     def test_canonical_symmetry(self):
         """Test that get_canonical handles symmetries correctly."""
-        # Use a fixed seed for reproducibility
+        # fixed seed for reproducibility
         np.random.seed(42)
         s = np.random.choice([1, -1], size=20)
         s_canon = get_canonical(s)
@@ -39,7 +39,7 @@ class TestQuantumDriver(unittest.TestCase):
         driver = HatanoNelsonDriver(N)
         s = np.ones(N)
         s[0] = -1
-        # Use reduced tau to prevent drift explosion during tests
+        # reduced tau to prevent drift explosion during tests
         new_s, ipr = driver.apply_shockwave(s, tau=0.1)
         
         self.assertEqual(len(new_s), N)
