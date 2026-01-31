@@ -10,7 +10,7 @@
 
 | Role | Name | GitHub Handle | Discord Handle |
 | :--- | :--- | :--- | :--- |
-| **Project Lead** (Architect) | Arife Nur Ayaz | @arife-16 | @arife16 |
+| **Project Lead** (Architect) | Arife Nur Ayaz | @arife-16 | @arife16ay |
 
 ---
 
