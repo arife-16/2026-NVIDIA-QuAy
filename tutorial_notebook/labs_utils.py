@@ -15,14 +15,13 @@ def calculate_autocorrelations(sequence):
         
     is_cupy = HAS_CUPY and hasattr(sequence, 'device')
     
-    # Ensure we work with the right library
     xp = cp if is_cupy else np
     
-    # 1. Zero-pad to length >= 2N - 1 to avoid circular convolution
+    # Zero-pad to length >= 2N - 1 to avoid circular convolution
     N = len(sequence)
     size = 2 * N
     
-    # 2. Compute FFT
+    # Compute FFT
     # Note: If sequence is real, we can use rfft for efficiency, but standard fft is fine.
     # We want Aperiodic Autocorrelation.
     # R[k] = sum_i s[i] * s[i+k]
@@ -52,10 +51,6 @@ def calculate_autocorrelations(sequence):
     # ...
     # R[N-1] = lag N-1
     # Note: Due to standard FFT ordering and zero padding, the positive lags are at the beginning.
-    
-    # We need lags 1 to N-1
-    # Check rounding errors - values should be integers (if N is not too huge)
-    # But we return floats usually.
     return R[1:N]
 
 def get_canonical(sequence):
@@ -71,12 +66,6 @@ def get_canonical(sequence):
     # Create a list of all 4 variants
     variants = [s, s_neg, s_rev, s_rev_neg]
     
-    # Sort lexicographically.
-    # Trick: map -1 -> 0, 1 -> 1 for easy comparison if needed,
-    # but numpy lexicographical sort works on raw values too (-1 < 1).
-    # We want a consistent tie-breaker.
-    
-    # Convert to tuple for easy sorting/hashing
     var_tuples = [tuple(v) for v in variants]
     best_tuple = min(var_tuples)
     
@@ -120,10 +109,7 @@ def check_barker13():
     print(f"Merit Factor: {mf}")
     print(f"Energy (Sidelobes): {energy}")
     
-    # Barker 13 is known to have Merit Factor 13^2 / (2*6) approx 14.08?
-    # Wait, Barker sequences have C_k \in {0, 1, -1}.
-    # Sum(C_k^2) for Barker 13?
-    # Let's run and see.
+    # Barker 13 is known to have Merit Factor 13^2 / (2*6) approx 14.08
     return mf
 
 if __name__ == "__main__":
