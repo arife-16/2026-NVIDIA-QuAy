@@ -2,7 +2,6 @@ import numpy as np
 import warnings
 from scipy.linalg import expm
 
-# Suppress RuntimeWarnings from matmul/overflow which are handled by fallback
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # Try to import cupy, else use numpy
@@ -20,11 +19,9 @@ try:
 except ImportError:
     HAS_CUDAQ = False
 
-# Import labs_utils for symmetry and energy calculations
 try:
     from labs_utils import calculate_autocorrelations, get_canonical
 except ImportError:
-    # Fallback if running standalone or path issues
     def calculate_autocorrelations(sequence):
         N = len(sequence)
         autocorrelations = []
@@ -56,7 +53,6 @@ class HatanoNelsonDriver:
         H[i+1, i] = t + drift (Forward)
         H[i, i+1] = t - drift (Backward)
         """
-        # Use float64 if possible to avoid complex overhead/issues if not needed
         dtype = cp.float64 if hasattr(cp, 'float64') else np.float64
         H = cp.zeros((self.N, self.N), dtype=dtype)
         
@@ -134,9 +130,8 @@ class HatanoNelsonDriver:
         dE/ds_i = 2 * sum_k (C_k * dC_k/ds_i)
         dC_k/ds_i = s_{i-k} + s_{i+k} (handling boundaries)
         """
-        # Ensure sequence is numpy (CPU) for easy indexing/summing, or implement in CuPy
-        # Since N is small (<100), CPU is fine for gradient calc to avoid complex kernel writing
-        # But if sequence is on GPU, bring it back.
+
+
         if HAS_CUPY and isinstance(sequence, cp.ndarray):
              seq_cpu = cp.asnumpy(sequence)
         else:
@@ -148,8 +143,7 @@ class HatanoNelsonDriver:
         # Calculate C_k
         C_k = calculate_autocorrelations(seq_cpu) # returns array of len N-1
         
-        # Inefficient but correct loop for gradient
-        # Optimization: vectorization possible but N is small
+
         for i in range(N):
             g_i = 0
             for k_idx, C in enumerate(C_k):
@@ -187,7 +181,6 @@ class HatanoNelsonDriver:
             overlap_sym = np.dot(v, v_rev)
             norm_sq = np.dot(v, v)
             
-        # If overlap is positive, it's closer to Symmetric. If negative, Skew.
         if overlap_sym >= 0:
             # Project to Symmetric: (v + v_rev) / 2
             v_proj = 0.5 * (v + v_rev)
@@ -217,8 +210,7 @@ class HatanoNelsonDriver:
         dtype = s.dtype
         
         # Momentum initialization (Thermal/Quantum Fluctuations)
-        # We start with zero momentum or small random noise?
-        # Let's use small random noise to allow barrier crossing
+        # small random noise to allow barrier crossing
         if HAS_CUPY:
              p = cp.random.normal(0, 0.1, size=len(s)).astype(dtype)
         else:
@@ -228,20 +220,13 @@ class HatanoNelsonDriver:
         p = self._project_to_symmetry(p)
         
         for _ in range(steps):
-            # 1. Calculate Counterdiabatic Force (Gradient of LABS Energy)
-            # This replaces the expensive RK4 evaluation with analytical coefficients
+            # Calculate Counterdiabatic Force (Gradient of LABS Energy)
             grad_V = self.calculate_energy_gradient(s)
             
-            # 2. Symplectic Update (Split-Operator)
-            # Kick (Update Momentum)
-            # We use the gradient as the force.
-            # Factor of 0.5 for stability if we did Verlet, but for Euler:
+            # Symplectic Update (Split-Operator)
             p = p - dt * grad_V
             
             # Momentum Clipping (Governor)
-            # Clip momentum to avoid explosive divergence in steep gradients
-            # Refinement: Max force is bounded by N^2 * dt
-            # p_max = 2.0 (Old Heuristic)
             p_max = (self.N**2) * dt * 0.1 # Physics-based dynamic clip
             
             # Safety floor
@@ -252,21 +237,16 @@ class HatanoNelsonDriver:
             else:
                 p = np.clip(p, -p_max, p_max)
             
-            # Enforce Symmetry on Momentum (Protection)
+            # Enforce Symmetry on Momentum 
             p = self._project_to_symmetry(p)
             
-            # Drift (Update Position)
+            # Drift 
             s = s + dt * p
             
-            # Enforce Symmetry on Position (Protection)
+            # Enforce Symmetry on Position 
             s = self._project_to_symmetry(s)
             
             # Normalize s to prevent divergence (Relaxation constraint)
-            # We want s to stay near the hypercube surface?
-            # Or just bounded. Soft constraint s \in [-1, 1]?
-            # Let's renormalize norm to sqrt(N) or similar.
-            # Current code expects unit norm or arbitrary.
-            # Let's keep norm constant.
             norm = cp.linalg.norm(s) if HAS_CUPY else np.linalg.norm(s)
             if norm > 1e-12:
                 s = s / norm * np.sqrt(len(s)) # Keep vector length ~ sqrt(N)
@@ -288,11 +268,8 @@ class HatanoNelsonDriver:
              evals = np.linalg.eigvalsh(self.H)
              
         # Sort by real part (decay rate)
-        # We assume we are looking at the "Ground State" as the one with max real part?
-        # Or min real part?
         # exp(-Ht). Eigenvalues with large positive real part decay fast.
         # Eigenvalues with small real part (or negative) grow/survive.
-        # We look for the gap in the surviving subspace.
         
         reals = np.sort(np.real(evals))
         # Gap between the first two
@@ -304,17 +281,16 @@ class HatanoNelsonDriver:
         """
         Apply the DCQO Symmetry-Protected Shockwave.
         """
-        # 1. Setup State
+        # Setup State
         dtype = cp.float64 if hasattr(cp, 'float64') else np.float64
         v = cp.array(sequence, dtype=dtype)
         
-        # 2. Evolve using Symplectic Split-Operator (DCQO)
+        # Evolve using Symplectic Split-Operator (DCQO)
         # We use the sequence itself as the position 's'.
         # The 'drift' in constructor is now handled by the gradient force strength.
-        # We can scale tau or gradient to adjust strength.
         v_final = self._evolve_symplectic_dcqo(v, tau, steps=20)
         
-        # 3. Measurement & Canonicalization
+        # Measurement & Canonicalization
         v_real = cp.real(v_final)
         new_sequence = cp.sign(v_real)
         new_sequence[new_sequence == 0] = 1
@@ -322,10 +298,10 @@ class HatanoNelsonDriver:
         # Enforce Symmetry-Protected Subspace (Canonicalize)
         if HAS_CUPY:
             seq_cpu = cp.asnumpy(new_sequence)
-            # Canonicalize on CPU (returns numpy array)
+            # Canonicalize on CPU
             new_sequence = get_canonical(seq_cpu)
-            # Ensure it is a standard numpy array, not 0-d or other weird shape
-            # Force 1D array to avoid reduce() errors in older numpy/downstream
+            # Ensure it is a standard numpy array
+            # Force 1D array to avoid reduce()
             if new_sequence.ndim == 0:
                  new_sequence = np.array([new_sequence.item()])
             elif new_sequence.shape == ():
@@ -369,7 +345,6 @@ class TNAnsatzGenerator:
                 s.extend(barker13)
             s = np.array(s[:self.N])
             
-            # Mutate slightly (perturb 10% of bits) so they aren't identical
             num_flips = max(1, self.N // 10)
             flips = np.random.choice(self.N, size=num_flips, replace=False)
             s[flips] *= -1
@@ -377,7 +352,6 @@ class TNAnsatzGenerator:
         return samples
 
 if __name__ == "__main__":
-    # Test Driver
     N = 10
     driver = HatanoNelsonDriver(N)
     seq = np.ones(N)
